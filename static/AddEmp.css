@@ -52,6 +52,7 @@ h1 {
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-evenly;
+	text-color: white;
 }
 
 .navbar-middle a {
@@ -96,6 +97,7 @@ input[type=number] {
 	border-radius: 15px;
 	align-self: center;
 	padding: 30px;
+	text-color : white;
 }
 
 .form-bubble {

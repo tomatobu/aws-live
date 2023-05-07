@@ -149,11 +149,8 @@ def checkOut():
             print(formatted_login)
             
             checkout_time = datetime.now()
-            login_date = datetime.strptime(formatted_login, '%Y-%m-%d %H:%M:%S')
-            
             formatted_checkout = checkout_time.strftime('%Y-%m-%d %H:%M:%S')
-            total_working_hours = checkout_time - login_date
-            print(total_working_hours)
+            total_working_hours = checkout_time - login_time  # Calculate the time difference directly
             
             try:
                 cursor.execute(insert_statement, (emp_id, formatted_login, formatted_checkout, total_working_hours))

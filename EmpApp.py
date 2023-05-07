@@ -129,51 +129,52 @@ def checkIn():
     return render_template("AttendanceOutput.html", date=malaysian_time, LoginTime=formatted_login)
 
 from pytz import timezone
+
+# CHECK OUT BUTTON
 @app.route("/attendance/output", methods=['GET', 'POST'])
 def checkOut():
-
     emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
     select_stmt = "SELECT check_in FROM employee WHERE emp_id = %(emp_id)s"
     insert_statement = "INSERT INTO attendance VALUES (%s, %s, %s, %s)"
-    malaysian_timezone = timezone('Asia/Kuala_Lumpur')
-    malaysian_time = datetime.now(malaysian_timezone)
 
     cursor = db_conn.cursor()
-        
+
     try:
         cursor.execute(select_stmt, {'emp_id': int(emp_id)})
         login_time = cursor.fetchone()
        
-        formatted_login = login_time[0]
-        print(formatted_login)
-        
-        checkout_time = malaysian_time
-        login_date = malaysian_timezone.localize(datetime.strptime(str(formatted_login), '%Y-%m-%d %H:%M:%S'))
-        
-        formatted_checkout = checkout_time.strftime('%Y-%m-%d %H:%M:%S')
-        total_working_hours = checkout_time - login_date
-        print(total_working_hours)
-
-         
-        try:
-            cursor.execute(insert_statement, (emp_id, formatted_login, formatted_checkout, total_working_hours))
-            db_conn.commit()
-            print("Data Inserted into MySQL")
+        if login_time is not None:
+            formatted_login = login_time[0]
+            print(formatted_login)
             
+            checkout_time = datetime.now()
+            login_date = datetime.strptime(formatted_login, '%Y-%m-%d %H:%M:%S')
             
-        except Exception as e:
-             return str(e)
-                    
-                    
+            formatted_checkout = checkout_time.strftime('%Y-%m-%d %H:%M:%S')
+            total_working_hours = checkout_time - login_date
+            print(total_working_hours)
+            
+            try:
+                cursor.execute(insert_statement, (emp_id, formatted_login, formatted_checkout, total_working_hours))
+                db_conn.commit()
+                print("Data Inserted into MySQL")
+                
+            except Exception as e:
+                return str(e)
+            
+        else:
+            print("No check-in time found for the given employee ID.")
+            return render_template("AttendanceOutput.html", date=datetime.now(), Checkout=None, LoginTime=None, TotalWorkingHours=None)
+            
     except Exception as e:
         return str(e)
 
     finally:
         cursor.close()
         
-    return render_template("AttendanceOutput.html", date=malaysian_time, Checkout=formatted_checkout,
-                       LoginTime=formatted_login, TotalWorkingHours=total_working_hours)
+    return render_template("AttendanceOutput.html", date=datetime.now(), Checkout=formatted_checkout, LoginTime=formatted_login, TotalWorkingHours=total_working_hours)
+
 
    
     

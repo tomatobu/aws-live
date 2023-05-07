@@ -102,7 +102,7 @@ def checkIn():
 
     login_time = datetime.now()
     formatted_login = login_time.strftime('%Y-%m-%d %H:%M:%S')
-    print ("Check in time:{}",formatted_login)
+    print("Check in time: %s" % formatted_login)
 
     try:
         cursor.execute(update_stmt, {'check_in': formatted_login, 'emp_id': int(emp_id)})

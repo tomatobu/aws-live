@@ -112,7 +112,7 @@ def checkIn():
     cursor = db_conn.cursor()
 
     login_time = malaysian_time
-    formatted_login = login_time[0].strftime('%Y-%m-%d %H:%M:%S')
+    formatted_login = login_time.strftime('%Y-%m-%d %H:%M:%S')
     print("Check in time: %s" % formatted_login)
 
     try:

@@ -4,6 +4,7 @@ from pymysql import connections
 from config import *
 import boto3
 from datetime import timedelta
+import pytz
 
 app = Flask(__name__)
 app.secret_key = "magiv"
@@ -27,6 +28,9 @@ table = 'employee'
 #MAIN PAGE
 @app.route("/")
 def home():
+
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
     
     return render_template("home.html",date=datetime.now())
     

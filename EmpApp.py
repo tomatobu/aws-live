@@ -172,8 +172,8 @@ def checkOut():
     finally:
         cursor.close()
         
-    return render_template("AttendanceOutput.html", date=malaysian_time, 
-                            CheckOutTime=formatted_checkout, WorkingHours=total_working_hours)
+    return render_template("AttendanceOutput.html", date=malaysian_time, Checkout=formatted_checkout,
+                       LoginTime=formatted_login, TotalWorkingHours=total_working_hours)
 
    
     

@@ -128,6 +128,7 @@ def checkIn():
         
     return render_template("AttendanceOutput.html", date=malaysian_time, LoginTime=formatted_login)
 
+from pytz import timezone
 @app.route("/attendance/output", methods=['GET', 'POST'])
 def checkOut():
 
@@ -135,7 +136,7 @@ def checkOut():
     # SELECT STATEMENT TO GET DATA FROM MYSQL
     select_stmt = "SELECT check_in FROM employee WHERE emp_id = %(emp_id)s"
     insert_statement = "INSERT INTO attendance VALUES (%s, %s, %s, %s)"
-    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_timezone = timezone('Asia/Kuala_Lumpur')
     malaysian_time = datetime.now(malaysian_timezone)
 
     cursor = db_conn.cursor()
@@ -148,7 +149,7 @@ def checkOut():
         print(formatted_login)
         
         checkout_time = malaysian_time
-        login_date = datetime.strptime(str(formatted_login), '%Y-%m-%d %H:%M:%S')
+        login_date = malaysian_timezone.localize(datetime.strptime(str(formatted_login), '%Y-%m-%d %H:%M:%S'))
         
         formatted_checkout = checkout_time.strftime('%Y-%m-%d %H:%M:%S')
         total_working_hours = checkout_time - login_date

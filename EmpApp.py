@@ -202,7 +202,6 @@ def Employee():
 
 
 # Payroll Calculator
-# Payroll Calculator
 @app.route("/payroll/", methods=['GET', 'POST'])
 def payRoll():
     return render_template('Payroll.html', date=datetime.now())
@@ -225,9 +224,7 @@ def CalpayRoll():
             total_seconds = 0
 
             for row in work_hours:
-                duration_str = row[0]
-                duration_parts = duration_str.split(':')
-                duration = timedelta(hours=int(duration_parts[0]), minutes=int(duration_parts[1]), seconds=int(duration_parts[2]))
+                duration = timedelta(seconds=row[0])
                 hours = duration.total_seconds() / 3600
                 total_seconds += hours
 

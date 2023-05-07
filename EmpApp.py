@@ -37,7 +37,7 @@ def home():
 #ADD EMPLOYEE DONE
 @app.route("/addemp/",methods=['GET','POST'])
 def addEmp():
-    return render_template("AddEmp.html",date=datetime.now())
+    return render_template("AddEmp.html",date=malaysian_time)
 
 #EMPLOYEE OUTPUT
 @app.route("/addemp/results",methods=['GET','POST'])
@@ -93,7 +93,7 @@ def Emp():
 #Attendance 
 @app.route("/attendance/")
 def attendance():
-    return render_template("Attendance.html",date=datetime.now())
+    return render_template("Attendance.html",date=malaysian_time)
 
 #CHECK IN BUTTON
 @app.route("/attendance/checkIn",methods=['GET','POST'])
@@ -120,7 +120,7 @@ def checkIn():
     finally:
         cursor.close()
         
-    return render_template("AttendanceOutput.html", date=datetime.now(), LoginTime=formatted_login)
+    return render_template("AttendanceOutput.html", date=malaysian_time, LoginTime=formatted_login)
 
 @app.route("/attendance/output", methods=['GET', 'POST'])
 def checkOut():
@@ -163,7 +163,7 @@ def checkOut():
     finally:
         cursor.close()
         
-    return render_template("AttendanceOutput.html", date=datetime.now(), Checkout=formatted_checkout,
+    return render_template("AttendanceOutput.html", date=malaysian_time, Checkout=formatted_checkout,
                        LoginTime=formatted_login, TotalWorkingHours=total_working_hours)
 
    
@@ -173,7 +173,7 @@ def checkOut():
 @app.route("/getemp/")
 def getEmp():
     
-    return render_template('GetEmp.html',date=datetime.now())
+    return render_template('GetEmp.html',date=malaysian_time)
 
 
 #Get Employee Results
@@ -202,13 +202,13 @@ def Employee():
         cursor.close()
     
 
-     return render_template("GetEmpOutput.html",result=result,date=datetime.now())
+     return render_template("GetEmpOutput.html",result=result,date=malaysian_time)
 
 
 # Payroll Calculator
 @app.route("/payroll/", methods=['GET', 'POST'])
 def payRoll():
-    return render_template('Payroll.html', date=datetime.now())
+    return render_template('Payroll.html', date=malaysian_time)
 
 # Process Payroll Calculation
 @app.route("/payroll/results", methods=['GET', 'POST'])
@@ -244,9 +244,9 @@ def CalpayRoll():
 
     else:
         print("Something is missing")
-        return render_template('Payroll.html', date=datetime.now())
+        return render_template('Payroll.html', date=malaysian_time)
 
-    return render_template('PayrollOutput.html', date=datetime.now(), emp_id=emp_id, MonthlySalary=pay,
+    return render_template('PayrollOutput.html', date=malaysian_time, emp_id=emp_id, MonthlySalary=pay,
                            AnnualSalary=annual, WorkingHours=working_hours, Bonus=bonus)
 
 # RMB TO CHANGE PORT NUMBER

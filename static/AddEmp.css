@@ -10,7 +10,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	background-image: url("img/Frog.jpeg");
-	background-size: 920px 1024px;
+	background-size: auto;
 }
 
 h1 {

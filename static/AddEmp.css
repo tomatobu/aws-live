@@ -276,6 +276,7 @@ input[type=number] {
 
 .form-container-add {
 	height: 50vh;
+	width: auto;
 }
 
 .body-container {

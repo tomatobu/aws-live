@@ -12,6 +12,11 @@ body {
 	flex-direction: column;
 }
 
+h1 {
+        text-align: center;
+      }
+
+
 .navbar {
 	display: flex;
 	/*background-color: red;*/

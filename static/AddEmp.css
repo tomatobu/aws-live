@@ -9,7 +9,7 @@ body {
 	padding: 5px;
 	display: flex;
 	flex-direction: column;
-	background-image: url("img/Frog.jpeg");
+	background-image: url("img/Frog.png");
 	background-size: auto;
 }
 

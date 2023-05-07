@@ -157,9 +157,9 @@ def checkOut():
 
          
         try:
-            cursor.execute(insert_statement, (int(emp_id), formatted_login, formatted_checkout, total_working_hours))
+            cursor.execute(insert_statement, (emp_id, formatted_login, formatted_checkout, total_working_hours))
             db_conn.commit()
-            print("Data inserted into MySQL")
+            print("Data Inserted into MySQL")
             
             
         except Exception as e:

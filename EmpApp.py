@@ -3,6 +3,7 @@ from datetime import datetime
 from pymysql import connections
 from config import *
 import boto3
+from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = "magiv"
@@ -200,54 +201,50 @@ def Employee():
      return render_template("GetEmpOutput.html",result=result,date=datetime.now())
 
 
- #Payroll Calculator  DONE
-@app.route("/payroll/",methods=['GET','POST'])
-def payRoll():
-    return render_template('Payroll.html',date=datetime.now())
+ 
 
-#NEED MAKE SURE THE INPUT ARE LINKED TO HERE
-@app.route("/payroll/results",methods=['GET','POST'])
+# Payroll Calculator
+@app.route("/payroll/", methods=['GET', 'POST'])
+def payRoll():
+    return render_template('Payroll.html', date=datetime.now())
+
+# Process Payroll Calculation
+@app.route("/payroll/results", methods=['GET', 'POST'])
 def CalpayRoll():
 
-    select_statement="SELECT total_working_hours FROM attendance WHERE emp_id = %(emp_id)s"
+    select_statement = "SELECT total_working_hours FROM attendance WHERE emp_id = %(emp_id)s"
     cursor = db_conn.cursor()
-   
 
-    if 'emp_id' in request.form and 'basic' in request.form and 'days'in request.form:
+    if 'emp_id' in request.form and 'basic' in request.form and 'days' in request.form:
         emp_id = int(request.form.get('emp_id'))
         hourly_salary = int(request.form.get('basic'))
         workday_perweek = int(request.form.get('days'))
 
         try:
-            cursor.execute(select_statement,{'emp_id': emp_id})
-            WorkHour= cursor.fetchall()
-            Final=0
+            cursor.execute(select_statement, {'emp_id': emp_id})
+            work_hours = cursor.fetchall()
+            total_seconds = 0
 
-            for row in WorkHour:
-                
-                Hour=row[0]
-                NewHour = datetime.strptime(Hour,'%H:%M:%S.%f')
-                
-                total_seconds = NewHour.second + NewHour.minute*60 + NewHour.hour*3600
-                Final += total_seconds
-                Final = Final/3600
-                working_hour= round(Final,2)
-                print(Final)
+            for row in work_hours:
+                duration = timedelta(hours=row[0].seconds // 3600, minutes=(row[0].seconds // 60) % 60, seconds=row[0].seconds % 60)
+                total_seconds += duration.total_seconds()
+
+            working_hours = round(total_seconds / 3600, 2)
 
         except Exception as e:
             return str(e)
 
-        # #Monthly salary = hourly salary * working hour per week * working days per week
-        pay = round((hourly_salary*working_hour*workday_perweek),2)
-        annual = float(pay) * 12 
-        annual = int(annual)
-            # # Bonus if 3% of annual salary
-        Bonus = annual*0.03
-    else:
-        print("Something Missing")
-        return render_template('Payroll.html',date=datetime.now())
+        # Calculate Payroll
+        pay = round((hourly_salary * working_hours * workday_perweek), 2)
+        annual = int(pay) * 12
+        bonus = annual * 0.03
 
-    return render_template('PayrollOutput.html',date=datetime.now(),emp_id=emp_id, MonthlySalary= pay , AnnualSalary = annual, WorkingHours = working_hour ,Bonus=Bonus)
+    else:
+        print("Something is missing")
+        return render_template('Payroll.html', date=datetime.now())
+
+    return render_template('PayrollOutput.html', date=datetime.now(), emp_id=emp_id, MonthlySalary=pay,
+                           AnnualSalary=annual, WorkingHours=working_hours, Bonus=bonus)
 
 # RMB TO CHANGE PORT NUMBER
 if __name__ == "__main__":

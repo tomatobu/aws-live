@@ -151,7 +151,9 @@ def checkOut():
             print(formatted_login)
             
             checkout_time = malaysian_time
-            login_date = formatted_login  # No need to convert to datetime again
+            
+            # Make login_date offset-aware using the same timezone
+            login_date = malaysian_timezone.localize(formatted_login)
             
             formatted_checkout = checkout_time.strftime('%Y-%m-%d %H:%M:%S')
             total_working_hours = checkout_time - login_date

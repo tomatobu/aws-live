@@ -231,32 +231,15 @@ def CalpayRoll():
     malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
     malaysian_time = datetime.now(malaysian_timezone)
 
-    select_statement = "SELECT total_working_hours FROM attendance WHERE emp_id = %(emp_id)s"
-    cursor = db_conn.cursor()
-
     if 'emp_id' in request.form and 'basic' in request.form and 'days' in request.form:
         emp_id = int(request.form.get('emp_id'))
-        hourly_salary = int(request.form.get('basic'))
+        hourly_salary = float(request.form.get('basic'))
         workday_perweek = int(request.form.get('days'))
 
-        try:
-            cursor.execute(select_statement, {'emp_id': emp_id})
-            work_hours = cursor.fetchall()
-            total_seconds = 0
-
-            for row in work_hours:
-                duration = timedelta(seconds=row[0])
-                hours = duration.total_seconds() / 3600
-                total_seconds += hours
-
-            working_hours = round(total_seconds, 2)
-
-        except Exception as e:
-            return str(e)
-
         # Calculate Payroll
+        working_hours = workday_perweek * 8  # Assuming 8 hours per workday
         pay = round((hourly_salary * working_hours * workday_perweek), 2)
-        annual = int(pay) * 12
+        annual = pay * 12
         bonus = annual * 0.03
 
     else:

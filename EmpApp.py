@@ -167,7 +167,7 @@ def checkOut():
             
         else:
             print("No check-in time found for the given employee ID.")
-            return render_template("AttendanceOutput.html", date=datetime.now(), Checkout=None, LoginTime=None, TotalWorkingHours=None)
+            return render_template("AttendanceOutput.html", date=malaysian_time, Checkout=None, LoginTime=None, TotalWorkingHours=None)
             
     except Exception as e:
         return str(e)

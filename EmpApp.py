@@ -175,7 +175,6 @@ def checkOut():
         
     return render_template("AttendanceOutput.html", date=datetime.now(), Checkout=formatted_checkout, LoginTime=formatted_login, TotalWorkingHours=total_working_hours)
 
-
    
     
 

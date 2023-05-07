@@ -37,6 +37,8 @@ def home():
 #ADD EMPLOYEE DONE
 @app.route("/addemp/",methods=['GET','POST'])
 def addEmp():
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
     return render_template("AddEmp.html",date=malaysian_time)
 
 #EMPLOYEE OUTPUT
@@ -93,11 +95,15 @@ def Emp():
 #Attendance 
 @app.route("/attendance/")
 def attendance():
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
     return render_template("Attendance.html",date=malaysian_time)
 
 #CHECK IN BUTTON
 @app.route("/attendance/checkIn",methods=['GET','POST'])
 def checkIn():
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
     emp_id = request.form['emp_id']
 
     #UPDATE STATEMENT
@@ -129,6 +135,8 @@ def checkOut():
     # SELECT STATEMENT TO GET DATA FROM MYSQL
     select_stmt = "SELECT check_in FROM employee WHERE emp_id = %(emp_id)s"
     insert_statement = "INSERT INTO attendance VALUES (%s, %s, %s, %s)"
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
 
     cursor = db_conn.cursor()
         
@@ -172,6 +180,8 @@ def checkOut():
 #Get Employee DONE
 @app.route("/getemp/")
 def getEmp():
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
     
     return render_template('GetEmp.html',date=malaysian_time)
 
@@ -184,6 +194,8 @@ def Employee():
      emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
      select_stmt = "SELECT * FROM employee WHERE emp_id = %(emp_id)s"
+     malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+     malaysian_time = datetime.now(malaysian_timezone)
 
      
      cursor = db_conn.cursor()
@@ -208,11 +220,15 @@ def Employee():
 # Payroll Calculator
 @app.route("/payroll/", methods=['GET', 'POST'])
 def payRoll():
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
     return render_template('Payroll.html', date=malaysian_time)
 
 # Process Payroll Calculation
 @app.route("/payroll/results", methods=['GET', 'POST'])
 def CalpayRoll():
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
 
     select_statement = "SELECT total_working_hours FROM attendance WHERE emp_id = %(emp_id)s"
     cursor = db_conn.cursor()

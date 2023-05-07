@@ -10,7 +10,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	background-image: url("img/Frog.jpeg");
-	background-size: 1024px 920px;
+	background-size: 920px 1024px;
 }
 
 h1 {
@@ -52,7 +52,7 @@ h1 {
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-evenly;
-	text-color: white;
+	color: white;
 }
 
 .navbar-middle a {

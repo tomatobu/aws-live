@@ -117,15 +117,13 @@ def checkIn():
         
     return render_template("AttendanceOutput.html", date=datetime.now(), LoginTime=formatted_login)
 
-#CHECK OUT BUTTON
-@app.route("/attendance/output",methods=['GET','POST'])
+@app.route("/attendance/output", methods=['GET', 'POST'])
 def checkOut():
 
     emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
     select_stmt = "SELECT check_in FROM employee WHERE emp_id = %(emp_id)s"
     insert_statement = "INSERT INTO attendance VALUES (%s, %s, %s, %s)"
-    
 
     cursor = db_conn.cursor()
         
@@ -137,7 +135,7 @@ def checkOut():
         print(formatted_login)
         
         checkout_time = datetime.now()
-        login_date = datetime.strptime(formatted_login, '%Y-%m-%d %H:%M:%S')
+        login_date = datetime.strptime(str(formatted_login), '%Y-%m-%d %H:%M:%S')
         
         formatted_checkout = checkout_time.strftime('%Y-%m-%d %H:%M:%S')
         total_working_hours = checkout_time - login_date
@@ -147,7 +145,7 @@ def checkOut():
         try:
             cursor.execute(insert_statement, (emp_id, formatted_login, formatted_checkout, total_working_hours))
             db_conn.commit()
-            print(" Data Inserted into MySQL")
+            print("Data Inserted into MySQL")
             
             
         except Exception as e:

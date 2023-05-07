@@ -111,7 +111,7 @@ def checkIn():
 
     cursor = db_conn.cursor()
 
-    login_time = datetime.now()
+    login_time = malaysian_time
     formatted_login = login_time.strftime('%Y-%m-%d %H:%M:%S')
     print("Check in time: %s" % formatted_login)
 
@@ -147,7 +147,7 @@ def checkOut():
         formatted_login = login_time[0]
         print(formatted_login)
         
-        checkout_time = datetime.now()
+        checkout_time = malaysian_time
         login_date = datetime.strptime(str(formatted_login), '%Y-%m-%d %H:%M:%S')
         
         formatted_checkout = checkout_time.strftime('%Y-%m-%d %H:%M:%S')

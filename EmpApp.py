@@ -133,6 +133,8 @@ from pytz import timezone
 # CHECK OUT BUTTON
 @app.route("/attendance/output", methods=['GET', 'POST'])
 def checkOut():
+    malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
+    malaysian_time = datetime.now(malaysian_timezone)
     emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
     select_stmt = "SELECT check_in FROM employee WHERE emp_id = %(emp_id)s"

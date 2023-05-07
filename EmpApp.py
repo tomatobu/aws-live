@@ -201,8 +201,6 @@ def Employee():
      return render_template("GetEmpOutput.html",result=result,date=datetime.now())
 
 
- 
-
 # Payroll Calculator
 @app.route("/payroll/", methods=['GET', 'POST'])
 def payRoll():
@@ -226,10 +224,11 @@ def CalpayRoll():
             total_seconds = 0
 
             for row in work_hours:
-                duration = timedelta(hours=row[0].seconds // 3600, minutes=(row[0].seconds // 60) % 60, seconds=row[0].seconds % 60)
-                total_seconds += duration.total_seconds()
+                duration = row[0]
+                hours = duration.total_seconds() / 3600
+                total_seconds += hours
 
-            working_hours = round(total_seconds / 3600, 2)
+            working_hours = round(total_seconds, 2)
 
         except Exception as e:
             return str(e)

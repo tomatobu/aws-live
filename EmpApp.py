@@ -32,7 +32,7 @@ def home():
     malaysian_timezone = pytz.timezone('Asia/Kuala_Lumpur')
     malaysian_time = datetime.now(malaysian_timezone)
     
-    return render_template("home.html",date=datetime.now())
+    return render_template("home.html", date=malaysian_time)
     
 #ADD EMPLOYEE DONE
 @app.route("/addemp/",methods=['GET','POST'])
